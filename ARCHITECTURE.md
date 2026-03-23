@@ -141,6 +141,8 @@ How the Checkbox/Checklist scales:
 - **Virtualization** — `virtualized={true}` switches to FlatList for long lists. Don’t nest in ScrollView; let FlatList handle scrolling.
 - **Theme** — Optional `theme="light" | "dark"`; integrates with `CHECKLIST_THEME`. Pass via `renderItem` or at Checklist level for consistent styling. Can later adapt to more common theming (context, design tokens).
 - **Icon system** — Simple SVG icons (check, plus, indeterminate dash); easy to swap or extend. Override with `iconStyle` or custom `renderItem`.
+- **Opt in error message** - If requiered an error message can be added on error
+- **React Hook Form** controlled UI components that match pattern (value / onChange), and they support hasError / errorMessage
 
 ## Storybook
 
