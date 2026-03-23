@@ -10,9 +10,10 @@ import AppToast from '@/components/app-toast';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { useColors } from '@/hooks/use-colors';
 import { useTranslation } from '@/hooks/use-translation';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
+
+import { safeAsyncStorage } from '@/lib/safe-storage';
 
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
 const FIVE_MINUTES_MS = 1000 * 60 * 5;
@@ -29,7 +30,7 @@ const queryClient = new QueryClient({
   },
 })
 const asyncStoragePersister = createAsyncStoragePersister({
-  storage: AsyncStorage,
+  storage: safeAsyncStorage,
   throttleTime: 1000,
 });
 
