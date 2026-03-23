@@ -43,9 +43,42 @@ npm start        # or: npm run ios | android | web
 | `npm run e2e` | Cypress E2E (app must run at `localhost:8081`) |
 | `npm run e2e:open` | Cypress UI |
 
+### Device / Emulator
+
+**iOS — device**
+
+```bash
+open coins-app/ios/coinsapp.xcworkspace
+npx expo run:ios --device
+# or with dev server:
+npx expo start --ios
+```
+
+**iOS — emulator**
+
+```bash
+cd coins-app
+npx expo run:ios
+```
+
+**Android — device**
+
+```bash
+cd coins-app
+npm run android    # with device connected via USB
+```
+
 ### Testing
 
 Unit: Jest + React Native Testing Library. E2E: Cypress on web build.
+
+**Run tests**
+
+```bash
+cd coins-app && npm run web
+# in another terminal:
+cd coins-app && npm run e2e
+```
 
 ### CI
 
