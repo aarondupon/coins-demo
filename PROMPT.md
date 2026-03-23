@@ -126,3 +126,6 @@ Why used: Simple, high-impact inclusive design.
 merge similar translations
 ```
 
+## Prompt disagree:
+For all of them: Since there isn't much boilerplate or reference examples, I peer-review 100% of the AI-generated code. I mostly rely on Cursor Tab for iterative assistance, rather than depending on a single, large one-shot prompt.
+For developer tooling, I do care less about the output, such as Storybook stories generation to test UI states."
