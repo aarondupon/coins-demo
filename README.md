@@ -49,7 +49,7 @@ Unit: Jest + React Native Testing Library. E2E: Cypress on web build.
 
 ### CI
 
-GitHub Actions on push/PR: `npm ci --legacy-peer-deps`, lint, unit tests. See [coins-app/.github/workflows/ci.yml](coins-app/.github/workflows/ci.yml).
+GitHub Actions on push/PR: `npm ci --legacy-peer-deps`, lint, unit tests. See [.github/workflows/ci.yml](.github/workflows/ci.yml).
 
 ---
 
