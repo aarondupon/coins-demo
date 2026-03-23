@@ -5,7 +5,7 @@ import { coinsApi } from '@/api/coins';
 export function useCoinDetail(id?: string) {
   return useQuery<Coin>({
     queryKey: ['coins', 'detail', id],
-    queryFn: () => coinsApi.detail(id!),
+    queryFn: ({ signal }) => coinsApi.detail(id!, { signal }),
     enabled: !!id,
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 60 * 24,

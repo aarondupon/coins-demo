@@ -5,7 +5,7 @@ import { coinsApi } from '@/api/coins';
 export const useInfiniteCoins = (pageSize: number = 50) => {
   return useInfiniteQuery({
     queryKey: ['coins', 'infinite', { pageSize }],
-    queryFn: ({ pageParam = 1 }) => coinsApi.list(pageParam ?? 1, pageSize),
+    queryFn: ({ pageParam = 1, signal }) => coinsApi.list(pageParam ?? 1, pageSize, { signal }),
     initialPageParam: 1,
     getNextPageParam: (lastPage: ListResponseCoin, _allPages, lastPageParam) => {
       const totalCount = lastPage.meta?.totalCoinCount ?? 0;

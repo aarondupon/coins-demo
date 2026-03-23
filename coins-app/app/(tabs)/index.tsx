@@ -65,17 +65,21 @@ export default function CoinsListScreen() {
 
   const coins = data?.pages.flatMap((page: ListResponseCoin) => page.data) ?? [];
   const totalCount = data?.pages[0]?.meta?.totalCoinCount ?? coins.length;
-  const [viewRange, setViewRange] = useState<{ first: number; last: number } | null>(null);
+  const [viewableIndices, setViewableIndices] = useState<Set<number>>(() => new Set());
   const fetchingNextRef = useRef(false);
 
   const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => i != null);
-    if (idx.length) setViewRange({ first: Math.min(...idx) + 1, last: Math.max(...idx) + 1 });
+    setViewableIndices(new Set(idx));
   }, []);
 
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 50,
+  }).current;
+
   const label = coins.length
-    ? viewRange
-      ? `${viewRange.first}–${viewRange.last}`
+    ? viewableIndices.size > 0
+      ? `${Math.min(...viewableIndices) + 1}–${Math.max(...viewableIndices) + 1}`
       : `1–${coins.length}`
     : `${totalCount}`;
   const showStaleBanner = isError && coins.length > 0;
@@ -102,6 +106,7 @@ export default function CoinsListScreen() {
           
           accessibilityLabel={t('list.title')}
           onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
         contentContainerStyle={[styles.list, coins.length === 0 && styles.listEmpty]}
         refreshControl={
           <RefreshControl
@@ -130,7 +135,13 @@ export default function CoinsListScreen() {
             )}
           </View>
         }
-        renderItem={({ item }) => <MemoCoinRow item={item} colors={Colors} />}
+        renderItem={({ item, index }) => (
+          <MemoCoinRow
+            item={item}
+            colors={Colors}
+            isInView={viewableIndices.size === 0 || viewableIndices.has(index)}
+          />
+        )}
         keyExtractor={(item) => item.id}
         onEndReached={() => {
           if (!hasNextPage || isFetchingNextPage || fetchingNextRef.current) return;

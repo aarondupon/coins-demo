@@ -6,9 +6,9 @@ import type { ColorTheme } from '@/constants/theme';
 import { formatPrice, formatPercent, percentChangeColor } from '@/utils/format-coin';
 import type { Coin } from '@/types/coin.schema';
 
-type CoinRowProps = { item: Coin; colors: ColorTheme };
+type CoinRowProps = { item: Coin; colors: ColorTheme; isInView?: boolean };
 
-export function CoinRow({ item, colors }: CoinRowProps) {
+export function CoinRow({ item, colors, isInView = true }: CoinRowProps) {
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -43,7 +43,7 @@ export function CoinRow({ item, colors }: CoinRowProps) {
         {({ pressed }) => (
           <View style={[styles.item, pressed && styles.itemPressed]}>
             <View style={styles.icon}>
-              <CoinIcon coinId={item.id} dirtyCode={item.dirtyCode} size={44} colors={colors} />
+              <CoinIcon coinId={item.id} dirtyCode={item.dirtyCode} size={44} colors={colors} isInView={isInView} />
             </View>
             <View style={styles.itemContent}>
               <Text style={styles.itemName}>{item.name}</Text>

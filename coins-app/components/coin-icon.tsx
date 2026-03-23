@@ -14,9 +14,11 @@ type CoinIconProps = {
   dirtyCode: string;
   size?: number;
   colors: ColorTheme;
+  /** When false, skips image load (e.g. row scrolled out of view). Default true. */
+  isInView?: boolean;
 };
 
-export function CoinIcon({ coinId, dirtyCode, size = 44, colors }: CoinIconProps) {
+export function CoinIcon({ coinId, dirtyCode, size = 44, colors, isInView = true }: CoinIconProps) {
   const [hasError, setHasError] = useState(false);
   const iconUrl = getDeltaIconUrl(coinId);
 
@@ -37,6 +39,14 @@ export function CoinIcon({ coinId, dirtyCode, size = 44, colors }: CoinIconProps
   );
 
   if (hasError) {
+    return (
+      <View style={[styles.fallback, { width: size, height: size, borderRadius: size / 2 }]}>
+        <Text style={[styles.fallbackText, { fontSize: size * 0.25 }]}>{dirtyCode}</Text>
+      </View>
+    );
+  }
+
+  if (!isInView) {
     return (
       <View style={[styles.fallback, { width: size, height: size, borderRadius: size / 2 }]}>
         <Text style={[styles.fallbackText, { fontSize: size * 0.25 }]}>{dirtyCode}</Text>
