@@ -1,5 +1,5 @@
 // app/(tabs)/index.tsx
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, Pressable, RefreshControl, ViewToken } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { MemoCoinRow } from '@/components/coin-row';
@@ -66,6 +66,7 @@ export default function CoinsListScreen() {
   const coins = data?.pages.flatMap((page: ListResponseCoin) => page.data) ?? [];
   const totalCount = data?.pages[0]?.meta?.totalCoinCount ?? coins.length;
   const [viewRange, setViewRange] = useState<{ first: number; last: number } | null>(null);
+  const fetchingNextRef = useRef(false);
 
   const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => i != null);
@@ -98,6 +99,7 @@ export default function CoinsListScreen() {
       {showStaleBanner && <StaleBanner onRetry={() => refetch()} colors={Colors} />}
         <FlatList
           data={coins}
+          
           accessibilityLabel={t('list.title')}
           onViewableItemsChanged={onViewableItemsChanged}
         contentContainerStyle={[styles.list, coins.length === 0 && styles.listEmpty]}
@@ -130,7 +132,11 @@ export default function CoinsListScreen() {
         }
         renderItem={({ item }) => <MemoCoinRow item={item} colors={Colors} />}
         keyExtractor={(item) => item.id}
-        onEndReached={() => hasNextPage && !isFetchingNextPage && fetchNextPage()}
+        onEndReached={() => {
+          if (!hasNextPage || isFetchingNextPage || fetchingNextRef.current) return;
+          fetchingNextRef.current = true;
+          fetchNextPage().finally(() => { fetchingNextRef.current = false; });
+        }}
         onEndReachedThreshold={0.3}
         ListFooterComponent={isFetchingNextPage ? <View style={styles.footer}><ActivityIndicator size="small" /></View> : null}
         />

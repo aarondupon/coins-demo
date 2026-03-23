@@ -11,11 +11,21 @@ export const coinsApi = {
       'page[size]': String(size),
     });
     const data = await apiGet<unknown>(`/coins?${params}`);
-    return listResponseCoinSchema.parse(data);
+    const result = listResponseCoinSchema.safeParse(data);
+    if (!result.success) {
+      console.error('[coins.list] parse error:', result.error.format());
+      throw result.error;
+    }
+    return result.data;
   },
 
   detail: async (id: string) => {
     const data = await apiGet<unknown>(`/coins/${id}`);
-    return coinDetailResponseSchema.parse(data).data;
+    const result = coinDetailResponseSchema.safeParse(data);
+    if (!result.success) {
+      console.error('[coins.detail] parse error:', result.error.format());
+      throw result.error;
+    }
+    return result.data.data;
   },
 };
