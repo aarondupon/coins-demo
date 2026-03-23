@@ -154,7 +154,7 @@ Run: `cd ui-demo-checkbox && npm run storybook`
 
 ## Final note
 
-**Tailwind** is not used here — it adds complexity for running on device and is out of scope. In large apps with Figma, Tailwind can be extracted or generated automatically, making initial effort low; would use it when that setup exists ([nativewind.dev](https://www.nativewind.dev/)).
+**Tailwind** is not used here — it adds complexity for running on device and is out of scope. In large apps with Figma, Tailwind can be extracted or generated automatically, if initial update effort in legacy codebase is low. I would likly use it. ([nativewind.dev](https://www.nativewind.dev/)).
 
 For production, I would add **Sentry** (`@sentry/react-native`) for error monitoring (wrap root in `app/_layout.tsx`) and **Chromatic** with Storybook for regression, visual, and accessibility testing ([chromatic.com](https://www.chromatic.com/)).
 
