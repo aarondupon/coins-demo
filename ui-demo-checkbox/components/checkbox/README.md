@@ -4,6 +4,23 @@ Reusable React Native checkbox with multiple variants and visual states, plus an
 
 ## Installation
 
+```bash
+cd ui-demo-checkbox && npm install
+```
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run storybook` | Storybook (component dev) |
+| `npm run storybook:ios` | Storybook on iOS |
+| `npm run storybook:android` | Storybook on Android |
+| `npm run storybook:generate` | Generate story index |
+| `npm test` | Jest unit tests |
+| `npm start` | Expo dev server |
+
+## Usage
+
 The component lives in `@/components/checkbox`. Import from the barrel:
 
 ```tsx
