@@ -10,7 +10,10 @@ export const coinSchema = z.object({
   availableSupply: z.number(),
   totalSupply: z.number(),
   marketCapRank: z.number(),
-  volume24hInUSD: z.number(),
+  // some api returns string for volume24hInUSD
+  volume24hInUSD: z.union([z.number(), z.string()]).transform((v) =>
+    typeof v === 'string' ? parseFloat(v) : v
+  ).nullable(),
   marketCapInUSD: z.number(),
   percentChange1h: z.number().nullable(),
   percentChange24h: z.number().nullable(),
