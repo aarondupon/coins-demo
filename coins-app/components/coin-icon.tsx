@@ -59,6 +59,7 @@ export function CoinIcon({ coinId, dirtyCode, size = 44, colors, isInView = true
       source={{ uri: iconUrl }}
       style={{ width: size, height: size, borderRadius: size / 2 }}
       contentFit="cover"
+      cachePolicy="memory-disk"
       onError={() => setHasError(true)}
     />
   );
