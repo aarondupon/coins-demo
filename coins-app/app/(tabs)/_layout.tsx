@@ -20,6 +20,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle: getFloatingTabBarStyle(colors),
         tabBarShowLabel: true,
+        tabBarItemStyle: { flex: 1, alignSelf: 'stretch', paddingTop: 0, height:54 },
       }}>
       <Tabs.Screen
         name="index"

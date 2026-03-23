@@ -5,7 +5,7 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { ColorTheme } from '@/constants/theme';
 
 const MARGIN = 24;
-const HEIGHT = 54;
+const HEIGHT = 58;
 const BOTTOM = 16;
 
 const styles = StyleSheet.create({
