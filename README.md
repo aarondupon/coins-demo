@@ -13,13 +13,26 @@ Monorepo with two Expo apps:
 
 React 19, Expo 55, TypeScript, TanStack Query. iOS, Android, Web.
 
+<p>
+  <img src="doc/app-light1.png" width="160" alt="Coins list light" />
+  <img src="doc/app-light2.png" width="160" alt="Coin detail light" />
+  <img src="doc/app-dark1.jpg" width="160" alt="Coins list dark" />
+  <img src="doc/app-dark2.jpg" width="160" alt="Coin detail dark" />
+</p>
+
 ### Get started
 
 ```bash
 cd coins-app && npm install
 ```
 
-Create `coins-app/.env` with `EXPO_PUBLIC_API_URL`. Then:
+Create `coins-app/.env` with:
+
+```
+EXPO_PUBLIC_API_URL=https://your-api.example.com
+```
+
+Then:
 
 ```bash
 cd coins-app
@@ -39,8 +52,9 @@ npm start        # or: npm run ios | android | web
 |--------|-------------|
 | `npm start` | Expo dev server |
 | `npm run web` | Web browser |
+| `npm run lint` | ESLint |
 | `npm test` | Jest unit tests |
-| `npm run e2e` | Cypress E2E (app must run at `localhost:8081`) |
+| `npm run e2e` | Cypress E2E (web build must be running) |
 | `npm run e2e:open` | Cypress UI |
 
 ### Device / Emulator
@@ -70,7 +84,7 @@ npm run android    # with device connected via USB
 
 ### Testing
 
-Unit: Jest + React Native Testing Library. E2E: Cypress on web build.
+Unit: Jest + React Native Testing Library. E2E: Cypress — tests run against the web build.
 
 **Run tests**
 
@@ -90,6 +104,11 @@ GitHub Actions on push/PR: `npm ci --legacy-peer-deps`, lint, unit tests. See [.
 
 Expo app for developing UI components with Storybook.
 
+<p>
+  <img src="doc/checkbox-light1.png" width="160" alt="Checklist" />
+  <img src="doc/checkbox-light2.png" width="160" alt="Checkbox variants" />
+</p>
+
 ```bash
 cd ui-demo-checkbox && npm install
 npx expo start
@@ -97,8 +116,10 @@ npx expo start
 
 ### Storybook
 
+From `ui-demo-checkbox` directory:
+
 ```bash
 npm run storybook
 ```
 
-— `npm run storybook:ios` | `storybook:android` | `storybook:generate`
+Other commands: `npm run storybook:ios`, `storybook:android`, `storybook:generate`

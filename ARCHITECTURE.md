@@ -1,8 +1,25 @@
-# Coins App — Architecture
+# Architecture
 
 High-level architecture of the cryptocurrency browsing app.
 
 ---
+
+## Monorepo overview
+
+The repository is a simple monorepo with two independent Expo apps:
+
+| App | Purpose |
+|-----|---------|
+| **coins-app** | Main product — cryptocurrency browsing (list, detail, real-time prices). React 19, Expo 55, TanStack Query. |
+| **ui-demo-checkbox** | Component development sandbox — Storybook for building and testing UI components (e.g. Checkbox, Checklist) in isolation. Expo 54. |
+
+Each app has its own `package.json`, dependencies, and scripts. Apps do not share code; components built in ui-demo-checkbox are meant to be copied or extracted into coins-app (or another consumer) when ready.
+
+In production, I would typically use **Turborepo** for caching, parallel tasks, and shared dependency management across packages.
+
+---
+
+# Coins App
 
 ## Project Tree
 
@@ -70,7 +87,7 @@ Stack for list/detail; bottom tabs (FloatingTabBar) for Coins + GitHub.
 ## Key Patterns
 
 **Data fetching (TanStack Query)**  
-Stale times: 5min list, 2min detail. Retry: 3 attempts, exponential backoff. `throwOnError: false` on list so UI can show retry instead of app-level error.
+Stale times: 5min list and detail. Retry: 3 attempts, exponential backoff. `throwOnError: false` on list so UI can show retry instead of app-level error.
 
 **Error handling**  
 Render → ErrorBoundary. Network → per-query; toast for non-blocking, retry UI for critical. StaleBanner when showing cached data after error.
@@ -78,6 +95,8 @@ Render → ErrorBoundary. Network → per-query; toast for non-blocking, retry U
 **Theming** — `getColors(colorScheme)` in `constants/theme.ts`; `useColors()` reads `useColorScheme()`.
 
 **i18n** — `i18n/index.ts` + `expo-localization`; `useTranslation()`; locales in `locales/{en,nl}.ts`.
+
+**Client state** — No **Zustand** (or similar). No shared UI state, settings, configs, or dark-mode toggle. theme follows `useColorScheme()`, so a global store is unnecessary. Add only when really needed.
 
 ---
 
@@ -95,6 +114,32 @@ Render → ErrorBoundary. Network → per-query; toast for non-blocking, retry U
 
 ---
 
+**Tradeoffs:** React version (19.1.0) pinned by Expo SDK template; `@testing-library/react-native` expects React ^19.2.4 (newer peer). Installed with `--legacy-peer-deps` — safe for dev dependencies. This is a common ecosystem timing issue, not a code problem. Icons from delta.app (would proxy in prod for caching).
+
+---
+
+## Design notes
+
+- **API:** `/coins/:id` uses `id`; `dirtyCode` is the display ticker;
+`EXPO_PUBLIC_API_URL` required; trailing slash stripped.
+- **Pagination:** 1-based (`page[number]=1`).
+- **Price format:** Locale from device; thresholds: ≥$1 → 2 decimals, ≥$0.0001 → 4, else 6.
+- **i18n:** Locales en, nl; device locale via expo-localization; fallback to en.
+- **Icons:** Public URLs; no auth; prod would proxy/cache.
+- **Component sharing:** Turborepo for sharing in real world version.
+- **Cache:** Fixed 24h for AsyncStorage persistence.
+- **Persistence:** safeAsyncStorage no-ops on failure so app works without persistence (e.g. if native module unavailable).
+---
+
+## Checkbox component (ui-demo-checkbox)
+
+How the Checkbox/Checklist scales:
+
+- **renderItem** — Custom item renderer; override default row layout per item. Use for sectioned UIs, custom variants (rounded, add), or integrating with app-specific styling.
+- **Virtualization** — `virtualized={true}` switches to FlatList for long lists. Don’t nest in ScrollView; let FlatList handle scrolling.
+- **Theme** — Optional `theme="light" | "dark"`; integrates with `CHECKLIST_THEME`. Pass via `renderItem` or at Checklist level for consistent styling. Can later adapt to more common theming (context, design tokens).
+- **Icon system** — Simple SVG icons (check, plus, indeterminate dash); easy to swap or extend. Override with `iconStyle` or custom `renderItem`.
+
 ## Storybook
 
 Storybook lives in **ui-demo-checkbox** (separate Expo app). Use it to build and test UI components in isolation without running the full Coins app.
@@ -105,4 +150,11 @@ Run: `cd ui-demo-checkbox && npm run storybook`
 
 ---
 
-**Tradeoffs:** `--legacy-peer-deps` (React 19 + testing libs). Icons from delta.app (would proxy in prod for caching).
+## Final note
+
+**Tailwind** is not used here — it adds complexity for running on device and is out of scope. In large apps with Figma, Tailwind can be extracted or generated automatically, making initial effort low; would use it when that setup exists ([nativewind.dev](https://www.nativewind.dev/)).
+
+For production, I would add **Sentry** (`@sentry/react-native`) for error monitoring (wrap root in `app/_layout.tsx`) and **Chromatic** with Storybook for regression, visual, and accessibility testing ([chromatic.com](https://www.chromatic.com/)).
+
+Data fetching, offline behavior, and error recovery are handled with TanStack Query and a clear caching strategy. The Checkbox stays scalable via `renderItem`, optional theme, and documented assumptions so variants and states can grow with minimal churn.
+

@@ -2,6 +2,12 @@
 
 Reusable React Native checkbox with multiple variants and visual states, plus an architecture for hierarchical checklists.
 
+## Preview
+
+| Checklist | Variants & states |
+|-----------|-------------------|
+| ![Checklist](../../../doc/checkbox-light1.png) | ![Checkbox variants](../../../doc/checkbox-light2.png) |
+
 ## Installation
 
 ```bash
@@ -9,6 +15,8 @@ cd ui-demo-checkbox && npm install
 ```
 
 ## Scripts
+
+All commands below are run from the **`ui-demo-checkbox`** directory (project root), not from `components/checkbox`.
 
 | Script | Description |
 |--------|-------------|

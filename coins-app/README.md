@@ -1,3 +1,15 @@
+Cryptocurrency browsing app: list view, detail page, real-time prices. React 19, Expo 55, TanStack Query. iOS, Android, Web.
+
+## Preview
+
+| List (light) | Detail (light) |
+|--------------|----------------|
+| ![Coins list](../doc/app-light1.png) | ![Coin detail](../doc/app-light2.png) |
+
+| List (dark) | Detail (dark) |
+|-------------|---------------|
+| ![Coins list dark](../doc/app-dark1.jpg) | ![Coin detail dark](../doc/app-dark2.jpg) |
+
 ## Installation
 
 ```bash

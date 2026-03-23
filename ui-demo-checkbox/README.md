@@ -18,7 +18,7 @@ npm install
 | `npm run storybook:generate` | Generate story index |
 | `npm test` | Jest unit tests |
 | `npm run test:watch` | Jest watch mode |
-| `npm run lint` | ESLint |
+| `npm run lint` | Expo lint (ESLint) |
 
 ---
 
