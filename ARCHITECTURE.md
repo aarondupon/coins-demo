@@ -13,6 +13,8 @@ The repository is a simple monorepo with two independent Expo apps:
 | **coins-app** | Main product — cryptocurrency browsing (list, detail, real-time prices). React 19, Expo 55, TanStack Query. |
 | **ui-demo-checkbox** | Component development sandbox — Storybook for building and testing UI components (e.g. Checkbox, Checklist) in isolation. Expo 54. |
 
+**CI:** GitHub Actions runs on push/PR for both apps. See [.github/workflows/ci.yml](.github/workflows/ci.yml).
+
 Each app has its own `package.json`, dependencies, and scripts. Apps do not share code; components built in ui-demo-checkbox are meant to be copied or extracted into coins-app (or another consumer) when ready.
 
 In production, I would typically use **Turborepo** for caching, parallel tasks, and shared dependency management across packages.
