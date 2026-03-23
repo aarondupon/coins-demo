@@ -160,3 +160,7 @@ For production, I would add **Sentry** (`@sentry/react-native`) for error monito
 
 Data fetching, offline behavior, and error recovery are handled with TanStack Query and a clear caching strategy. The Checkbox stays scalable via `renderItem`, optional theme, and documented assumptions so variants and states can grow with minimal churn.
 
+
+### ISSUE:
+ - some api calls returns mixed types, string for volume24hInUSD
+
