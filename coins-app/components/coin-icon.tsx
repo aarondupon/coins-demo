@@ -18,7 +18,7 @@ type CoinIconProps = {
   isInView?: boolean;
 };
 
-export function CoinIcon({ coinId, dirtyCode, size = 44, colors, isInView = true }: CoinIconProps) {
+export function CoinIcon({ coinId, dirtyCode, size = 44, colors }: CoinIconProps) {
   const [hasError, setHasError] = useState(false);
   const iconUrl = getDeltaIconUrl(coinId);
 
@@ -39,14 +39,6 @@ export function CoinIcon({ coinId, dirtyCode, size = 44, colors, isInView = true
   );
 
   if (hasError) {
-    return (
-      <View style={[styles.fallback, { width: size, height: size, borderRadius: size / 2 }]}>
-        <Text style={[styles.fallbackText, { fontSize: size * 0.25 }]}>{dirtyCode}</Text>
-      </View>
-    );
-  }
-
-  if (!isInView) {
     return (
       <View style={[styles.fallback, { width: size, height: size, borderRadius: size / 2 }]}>
         <Text style={[styles.fallbackText, { fontSize: size * 0.25 }]}>{dirtyCode}</Text>

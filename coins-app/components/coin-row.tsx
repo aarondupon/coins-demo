@@ -43,7 +43,7 @@ export function CoinRow({ item, colors, isInView = true }: CoinRowProps) {
         {({ pressed }) => (
           <View style={[styles.item, pressed && styles.itemPressed]}>
             <View style={styles.icon}>
-              <CoinIcon coinId={item.id} dirtyCode={item.dirtyCode} size={44} colors={colors} isInView={isInView} />
+              <CoinIcon coinId={item.id} dirtyCode={item.dirtyCode} size={44} colors={colors} />
             </View>
             <View style={styles.itemContent}>
               <Text style={styles.itemName}>{item.name}</Text>
